@@ -19,6 +19,10 @@ class TodoList extends Component {
 
     this.model = new TodoModel(this);    
   };
+
+  componentDidMount(){
+    this.model.init();
+  }
   
   handleChange = event => {
     this.setState({newTodo: event.target.value});

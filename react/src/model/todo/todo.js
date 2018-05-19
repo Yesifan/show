@@ -1,45 +1,55 @@
 import { v4 } from 'uuid';
 import Immutable from "immutable";
+const store = 'y-todos';
 export default class TodoModel{
   constructor(that){
     this.react = that;
-    this._todos = Immutable.fromJS(that.state.todos);
+    this._todos = JSON.parse(localStorage.getItem(store))||[];
   }
 
-  get todos(){
-    return this._todos;
+  init(){
+    this.react.setState({todos:this._todos})
+  }
+
+  update(){
+    console.log(this._todos);
+    localStorage.setItem(store,JSON.stringify(this._todos))
   }
 
   addTodo(text){
-    this.react.setState(function(prevState) {
+    this.react.setState((prevState) => {
       const $$todos = Immutable.fromJS(prevState.todos||[]).push({
         id:v4(),
         completed:false,
         text:text,
       })
+      this._todos = $$todos.toJS();
       return {
-        todos: $$todos.toJS()
+        todos: this._todos
       };
-    });
+    },()=>this.update());
+
   }
 
   delete(id){
-    this.react.setState(function(prevState) {
+    this.react.setState((prevState) => {
       const $$todos = Immutable.fromJS(prevState.todos);
       const index = $$todos.findIndex(value => value.getIn&&value.getIn(['id']) === id);
+      this._todos = $$todos.delete(index).toJS();
       return {
-        todos: $$todos.delete(index).toJS()
+        todos: this._todos
       };
-    });
+    },()=>this.update());
   }
 
   statusChange(id){
-    this.react.setState(function(prevState) {
+    this.react.setState((prevState) => {
       const $$todos = Immutable.fromJS(prevState.todos);
       const index = $$todos.findIndex(value => value.getIn&&value.getIn(['id']) === id);
+      this._todos = $$todos.setIn([index,'completed'],!$$todos.getIn([index,'completed'])).toJS();
       return {
-        todos: $$todos.setIn([index,'completed'],!$$todos.getIn([index,'completed'])).toJS()
+        todos: this._todos
       };
-    });
+    },()=>this.update());
   }
 }
