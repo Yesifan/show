@@ -36,15 +36,19 @@ class TodoList extends Component {
     }
   }
 
-  itemStatusChange = id => {
-    
-  }
+  itemToggle = id => this.model.statusChange(id)
+  
+
+  itemDestroy = id => this.model.delete(id);
 
   render() {
     let todoItem;
     if (this.state.todos.length) {
       todoItem = this.state.todos.map(
-        todo => <TodoItem key={todo.id} todo={todo} />
+        todo => <TodoItem 
+        key={todo.id} todo={todo} 
+        onToggle={()=>this.itemToggle(todo.id)}  
+        onDestroy = {() => this.itemDestroy(todo.id)}/>
       )
     }
     return (

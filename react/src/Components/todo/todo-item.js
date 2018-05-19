@@ -2,14 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 import './todo.css';
 
-const TodoItem = ({todo,onDestroy,editing}) => 
+const TodoItem = ({todo,onToggle,onDestroy,editing}) => 
     <li className='todo-item'>
         <div className="view">
             <input
                 className="toggle"
                 type="checkbox"
                 checked={todo.completed}
-                // onChange={onToggle}
+                onChange={onToggle}
             />
             <label contentEditable={editing}>
                 {todo.text}
