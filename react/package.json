@@ -1,6 +1,7 @@
 {
   "version": "1.0.0",
   "private": false,
+  "homepage":"http://yesifan.github.io/react/build",
   "dependencies": {
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
