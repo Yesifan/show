@@ -1,0 +1,19 @@
+{
+  "name": "yesifan.github.io",
+  "private": false,
+  "version": "1.0.0",
+  "description": "yesifan.github.io",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "yesifan",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamkun/dayjs.git"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
