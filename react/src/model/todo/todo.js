@@ -31,6 +31,16 @@ export default class TodoModel{
 
   }
 
+  save(id,text){
+    if(!text) return this.delete(id);
+    const $$todos = Immutable.fromJS(this._todos);
+    const index = $$todos.findIndex(value => value.getIn&&value.getIn(['id']) === id);
+    this._todos = $$todos.setIn([index,'text'],text).toJS();
+    this.react.setState({
+        todos: this._todos
+    },()=>this.update());
+  }
+
   delete(id){
     this.react.setState((prevState) => {
       const $$todos = Immutable.fromJS(prevState.todos);

@@ -111,7 +111,10 @@ li.todo-item:hover .destroy {
 	transition: color 0.4s;
 }
 
-
+.todo-item.completed label {
+	color: #d9d9d9;
+	text-decoration: line-through;
+}
 
 
 

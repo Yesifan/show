@@ -8,6 +8,7 @@ class TodoList extends Component {
     super(props)
     this.state = {
       newTodo:'',
+      editor:false,
       todos: [
         {
           id:'asdf',
@@ -27,6 +28,7 @@ class TodoList extends Component {
   handleChange = event => {
     this.setState({newTodo: event.target.value});
   }
+
   handleNewTodoKeyDown = event => {
     if (event.keyCode !== ENTER_KEY) return;
     
@@ -42,17 +44,30 @@ class TodoList extends Component {
 
   itemToggle = id => this.model.statusChange(id)
   
-
   itemDestroy = id => this.model.delete(id);
+
+  itemEdit = (id,e) => {
+    let target = e.target;
+    this.setState({editor:id},()=>target.focus());
+    // console.log(e.target);
+  }
+
+  itemSubmit = (id,text) => {
+    this.model.save(id,text);
+    this.setState({editor:false});
+  }
 
   render() {
     let todoItem;
     if (this.state.todos.length) {
       todoItem = this.state.todos.map(
         todo => <TodoItem 
-        key={todo.id} todo={todo} 
-        onToggle={()=>this.itemToggle(todo.id)}  
-        onDestroy = {() => this.itemDestroy(todo.id)}/>
+          key = {todo.id} todo={todo} 
+          editing = {todo.id===this.state.editor}
+          onEditor = {this.itemEdit}
+          onSubmit = {this.itemSubmit}
+          onToggle = {this.itemToggle}
+          onDestroy = {this.itemDestroy}/>
       )
     }
     return (
