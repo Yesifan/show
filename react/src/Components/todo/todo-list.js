@@ -25,6 +25,8 @@ class TodoList extends Component {
 
   componentDidMount(){
     this.model.init();
+    let {match,history} = this.props;
+    if(!/^(all|active|completed)$/.test(match.params.filter)||!match.isExact) history.push('/todo/all')
   }
   
   handleChange = event => {
@@ -62,6 +64,7 @@ class TodoList extends Component {
   render() {
     let todoItem;
     let {match} = this.props;
+
     if (this.state.todos.length) {
       todoItem = this.state.todos.filter(
         todo => {
