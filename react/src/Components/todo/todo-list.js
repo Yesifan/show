@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
+import classNames from "classnames";
 import TodoItem from "./todo-item";
 import TodoModel from "../../model/todo/todo";
 const ENTER_KEY = 13;
@@ -59,8 +61,15 @@ class TodoList extends Component {
 
   render() {
     let todoItem;
+    let {match} = this.props;
     if (this.state.todos.length) {
-      todoItem = this.state.todos.map(
+      todoItem = this.state.todos.filter(
+        todo => {
+          if(match.params.filter === 'all') return true;
+          return todo.completed === (match.params.filter === 'completed')
+        }
+      )
+      .map(
         todo => <TodoItem 
           key = {todo.id} todo={todo} 
           editing = {todo.id===this.state.editor}
@@ -83,6 +92,13 @@ class TodoList extends Component {
             autoFocus={true} />
 				</header>
         {todoItem}
+        <footer className="footer">
+        <ul className="filters">
+          <li className={classNames({selected: match.params.filter === 'all'})}><Link to={`./all`}>All</Link></li>
+          <li className={classNames({selected: match.params.filter === 'active'})}><Link to={`./active`}>Active</Link></li>
+          <li className={classNames({selected: match.params.filter === 'completed'})}><Link to={`./completed`}>Completed</Link></li>
+        </ul>
+      </footer>
       </main>
     );
   }
