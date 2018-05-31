@@ -13,26 +13,28 @@ class Swiper extends Component {
     };
   }
 
-  componentDidUpdate(prevProps){
-    if (prevProps.i !== this.props.i) this.swiper(prevProps.i,0);
+  componentDidUpdate({i: prevI},{translate}){
+    if (prevI !== this.props.i){
+      cancelAnimationFrame(this.animation);
+      this.swiper(translate,0);
+    }
   }
 
-  swiper(prevI,start){
-    const {i,time} = this.props;
-    const _start = start + 1;
-    const from = prevI * -100;
+  swiper(from,befor){
+    const { translate } = this.state;
+    const { i,time } = this.props;
+    const now = befor + 1;
     const to = i * -100;
 
-    const _translate = Expo.easeOut(_start,from,to - from,time);
+    const _translate = Expo.easeOut(now,from,to - from,time);
     this.setState({translate: _translate},() => {
       if (to !== this.state.translate)
-      this.animation = requestAnimationFrame(() => this.swiper(prevI,_start));
+        this.animation = requestAnimationFrame(() => this.swiper(from,now));
     });
   }
 
   renderSwiper(e,index){
-    const {translate} = this.state;
-
+    const { translate } = this.state;
     const _translate = translate + index * 100;
     if (_translate > -100 && _translate < 100)
       return (
@@ -69,7 +71,7 @@ Swiper.propTypes = {
 
 Swiper.defaultProps = {
   i: 0,
-  time: 60,
+  time: 200,
 };
 
 
