@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { HashRouter as Router, Redirect, Switch, Route } from "react-router-dom";
 
 import TodoList from './Route/todo';
-import Carousel from "./Route/Swiper";
+import Swiper from "./Route/Swiper";
+import Carousel from "./Route/Carousel";
 import Nope from "./Route/404/index";
 class App extends Component {
   render() {
@@ -11,6 +12,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/todo/:filter" component={TodoList} />
           <Route exact path="/carousel" component={Carousel} />
+          <Route exact path="/swiper" component={Swiper} />
           <Redirect from="/todo" to="/todo/all" />          
           <Route component={Nope} />
         </Switch>
