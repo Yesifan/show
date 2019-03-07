@@ -1,0 +1,60 @@
+.bubble{
+  display: flex;
+  margin-bottom: 20px;
+  @keyframes bubbleAnimation {
+    0%,100%{
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    0%{
+      transform: scale(0);
+    }
+    40%{
+      transform: scale(1.03);
+    }
+    75%{
+      transform: scale(0.98);
+    }
+    100%{
+      transform: scale(1);
+    }
+  }
+  &.left{
+    >span{
+      margin: 0 auto 0 15px;
+      border-top-left-radius: 0;
+      transform-origin: 0 0;
+      >img{
+        transform-origin: 0 0;
+      }
+    }
+  }
+  &.right{
+    >span{
+      color: #fff;
+      background-color: #3FD1E1;
+      margin: 0 15px 0 auto;
+      border-bottom-right-radius: 0;
+      transform-origin: 100% 100%;
+      >img{
+        transform-origin: 100% 100%;
+      }
+    }
+  }
+  >span{
+    border-radius: 20px 20px 20px 20px;
+    margin: 0 auto 0 15px;
+    display: inline-block;
+    background-color: #fff;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 9px 14px;
+    max-width: 65%;
+    min-height: 24px;
+    animation: bubbleAnimation 600ms ease-in-out;
+    >img{
+      animation: bubbleAnimation 600ms ease-in-out;
+      width: 100%;
+      border-radius: 5px;
+    }
+  }
+}
