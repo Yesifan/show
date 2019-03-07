@@ -5,7 +5,7 @@ import './index.css'
 export default class Carousel extends Component {
   constructor(props){
     super(props);
-    this.interval;
+    this.interval = undefined;
     this.state = {
       index:1
     };

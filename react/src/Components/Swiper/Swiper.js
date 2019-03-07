@@ -7,7 +7,7 @@ import './Swiper.css';
 class Swiper extends Component {
   constructor(props){
     super(props);
-    this.animation;
+    this.animation = undefined;
     this.state = {
       translate: -100 * props.i
     };
