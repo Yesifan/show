@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { delay,getImage } from '../../lib/tool';
 import './index.scss';
 
 import { Input, Bubble } from "./modules";
@@ -53,7 +53,6 @@ export default class App extends Component {
   }
 
   pushMessage = (msg, answer = false) => {
-
     const gradient = (msg,index = 0) => {
       return this._setState((prev)=>{
         const newDialog = [...prev.dialog];
@@ -62,9 +61,9 @@ export default class App extends Component {
         return { dialog:newDialog }
       })
       .then(this.updateScroll)
-      .then(()=>this.delay(Math.random()*80+70))
+      .then(()=>delay(Math.random()*80+70))
       .then(()=>{
-        if(index === msg.length||msg.type === 'img') return this.delay(Math.random()*100+100);
+        if(index === msg.length||msg.type === 'img') return delay(Math.random()*100+100);
         else return gradient(msg,++index)
       })
     }
@@ -74,11 +73,10 @@ export default class App extends Component {
         dialog:[...prev.dialog,{content:<Dot/>, answer}]
       }))
       .then(this.updateScroll)
-      .then(()=>nodelay?50:msg.type === 'img'?this.getImage(msg.src):this.delay(msg.length>5?Math.min(100 * msg.length, 2000):0))
+      .then(()=>nodelay?50:msg.type === 'img'?getImage(msg.src):delay(msg.length>5?Math.min(100 * msg.length, 2000):0))
       .then(()=>gradient(msg))
     }
 
-    
     let sendChain = Promise.resolve();
 
     if(typeof msg === 'string'){
@@ -88,19 +86,12 @@ export default class App extends Component {
     }
     else sendChain.then(()=>send(msg));
 
- 
     return sendChain;
   }
 
   _setState = (fun) => new Promise((resolve)=>{
     this.setState(fun,resolve)
   })
-
-  delay(amount = 0){
-    return new Promise(resolve => {
-        setTimeout(resolve, amount);
-    });
-  }
 
   updateScroll = () => {
     const node = this.$box.current;
@@ -113,15 +104,6 @@ export default class App extends Component {
       node.scrollTop = scrollTop + distance * p;
       p < 1 && requestAnimationFrame(step);
     });
-  }
-
-  getImage(src){
-    if(typeof src === 'string'){
-      const img = document.createElement('img');
-      img.src = src;
-      return new Promise( resolve => img.onload = () => resolve(img));
-    }
-    return Promise.resolve();
   }
 
   render() {
