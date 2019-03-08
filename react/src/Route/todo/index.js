@@ -85,7 +85,6 @@ class TodoList extends Component {
     return (
       <main className='main'>
         <header className="header">
-          <h1 id='title'>todos</h1>
           <input
             className="new-todo"
             placeholder="What needs to be done?"
