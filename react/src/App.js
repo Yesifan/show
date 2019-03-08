@@ -1,15 +1,19 @@
-import React, { Component } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { HashRouter as Router, Redirect, Switch, Route } from "react-router-dom";
-
+import nest from './Utils/nest';
 import TodoList from './Route/todo';
 import Swiper from "./Route/Swiper";
 import Carousel from "./Route/Carousel";
 import Chat from "./Route/chat";
 import Nope from "./Route/404/index";
-class App extends Component {
-  render() {
-    return (
-      <Router>
+
+function App() {
+  const canvas = useRef();
+  useEffect(()=>nest(canvas.current),[])
+  return (
+    <Router>
+      <div>
+        <canvas style={{position:'fixed',top:0,left:0}} ref={canvas}/>
         <Switch>
           <Route exact path="/todo/:filter" component={TodoList} />
           <Route exact path="/carousel" component={Carousel} />
@@ -18,9 +22,9 @@ class App extends Component {
           <Redirect from="/todo" to="/todo/all" />          
           <Route component={Nope} />
         </Switch>
-      </Router>
-    );
-  }
+      </div>
+    </Router>
+  );
 }
 
 export default App;
