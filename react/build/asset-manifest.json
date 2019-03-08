@@ -1,6 +1,13 @@
 {
-  "main.css": "static/css/main.d2702541.css",
-  "main.css.map": "static/css/main.d2702541.css.map",
-  "main.js": "static/js/main.8e4f6657.js",
-  "main.js.map": "static/js/main.8e4f6657.js.map"
+  "main.css": "/react/build/static/css/main.0e518cf4.chunk.css",
+  "main.js": "/react/build/static/js/main.8dad4bce.chunk.js",
+  "main.js.map": "/react/build/static/js/main.8dad4bce.chunk.js.map",
+  "runtime~main.js": "/react/build/static/js/runtime~main.0ab4c741.js",
+  "runtime~main.js.map": "/react/build/static/js/runtime~main.0ab4c741.js.map",
+  "static/js/2.8ba8db20.chunk.js": "/react/build/static/js/2.8ba8db20.chunk.js",
+  "static/js/2.8ba8db20.chunk.js.map": "/react/build/static/js/2.8ba8db20.chunk.js.map",
+  "index.html": "/react/build/index.html",
+  "precache-manifest.89d4c4caf1be0aaa6d0998dfa5734498.js": "/react/build/precache-manifest.89d4c4caf1be0aaa6d0998dfa5734498.js",
+  "service-worker.js": "/react/build/service-worker.js",
+  "static/css/main.0e518cf4.chunk.css.map": "/react/build/static/css/main.0e518cf4.chunk.css.map"
 }
