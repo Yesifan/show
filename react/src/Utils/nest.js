@@ -1,11 +1,10 @@
 export default function index(canvas){
   const ctx = canvas.getContext('2d');
   const mix = 10000;   //会产生连线的极限距离的平方
-  let width = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-  let height = canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  let width = canvas.width = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth)*window.devicePixelRatio;
+  let height = canvas.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight)*window.devicePixelRatio;
   const points = randomPoint(10+width*height/10000,width,height);
   let mousePoint = [];
-
   // canvas.
   canvas.addEventListener('mousemove', (event)=>{
     mousePoint = [{x:event.clientX, y:event.clientY}]
@@ -63,7 +62,7 @@ export default function index(canvas){
         if(dist < mix) {
           ctx.strokeStyle  = `rgba(255,255,255,${(1-dist/mix)*0.6})`;
           ctx.beginPath();
-          ctx.lineWidth = 0.5;
+          ctx.lineWidth = 1;
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(pi.x, pi.y);
           ctx.stroke();

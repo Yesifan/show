@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { delay,getImage } from '../../lib/tool';
+import { delay,getImage } from '../../Utils/tool';
 import './index.scss';
 
 import { Input, Bubble } from "./modules";

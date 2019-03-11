@@ -13,7 +13,7 @@ function App() {
   return (
     <Router>
       <div>
-        <canvas style={{position:'fixed',top:0,left:0}} ref={canvas}/>
+        <canvas style={{position:'fixed',top:0,left:0,width:'100%',height:'100%'}} ref={canvas}/>
         <Switch>
           <Route exact path="/todo/:filter" component={TodoList} />
           <Route exact path="/carousel" component={Carousel} />
