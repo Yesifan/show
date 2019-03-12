@@ -1,10 +1,14 @@
 self.__precacheManifest = [
   {
+    "revision": "c32e58e7c0c7c3c1c8123cd2631eace1",
+    "url": "/react/build/static/media/IndieFlower.c32e58e7.ttf"
+  },
+  {
     "revision": "8f0a396bffc971238127",
     "url": "/react/build/static/js/runtime~main.0ab4c741.js"
   },
   {
-    "revision": "fb7e698a44fb4b886e4f",
+    "revision": "42889fe0307f367c9e3a",
     "url": "/react/build/static/js/main.2ee7f162.chunk.js"
   },
   {
@@ -12,11 +16,11 @@ self.__precacheManifest = [
     "url": "/react/build/static/js/2.1e0edba5.chunk.js"
   },
   {
-    "revision": "fb7e698a44fb4b886e4f",
-    "url": "/react/build/static/css/main.b375d2a0.chunk.css"
+    "revision": "42889fe0307f367c9e3a",
+    "url": "/react/build/static/css/main.73abe108.chunk.css"
   },
   {
-    "revision": "324cd8f16ef7bdfc70b9fcc882b2f486",
+    "revision": "3c26e81c9a353e97d7309b954bb65788",
     "url": "/react/build/index.html"
   }
 ];
