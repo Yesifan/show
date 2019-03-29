@@ -12,5 +12,16 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Yesifan/Yesifan.github.io"
+  },
+  "devDependencies": {
+    "eslint": "5.x",
+    "eslint-config-react-app": "^3.0.8",
+    "eslint-plugin-flowtype": "2.x",
+    "eslint-plugin-import": "2.x",
+    "eslint-plugin-jsx-a11y": "6.x",
+    "eslint-plugin-react": "7.x"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   }
 }
