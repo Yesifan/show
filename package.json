@@ -6,6 +6,9 @@
   "main": "index.js",
   "license": "MIT",
   "author": "yesifan",
+  "scripts": {
+    "start": "cd react&&node scripts/start.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Yesifan/Yesifan.github.io"
