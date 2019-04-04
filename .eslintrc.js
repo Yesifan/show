@@ -18,7 +18,7 @@ module.exports = {
   },
   extends:"react-app",
   rules: {
-    eqeqeq:["warn", "always"],
+    eqeqeq:["error", "always"],
     indent: ["error", 2],
     "linebreak-style": ["error", "windows"],
     quotes: ["error", "single"],
