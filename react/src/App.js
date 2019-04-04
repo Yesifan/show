@@ -1,16 +1,16 @@
 import React, { useRef, useEffect } from 'react';
-import { HashRouter as Router, Redirect, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Redirect, Switch, Route } from 'react-router-dom';
 import nest from './Utils/nest';
 import Main from './Route';
 import TodoList from './Route/todo';
-import Swiper from "./Route/Swiper";
-import Carousel from "./Route/Carousel";
-import Chat from "./Route/chat";
-import Nope from "./Route/404/index";
+import Swiper from './Route/Swiper';
+import Carousel from './Route/Carousel';
+import Chat from './Route/chat';
+import Nope from './Route/404/index';
 
-function App() {
+function App () {
   const canvas = useRef();
-  useEffect(()=>nest(canvas.current),[])
+  useEffect(()=>nest(canvas.current),[]);
   return (
     <Router>
       <div>
@@ -21,7 +21,7 @@ function App() {
           <Route exact path="/carousel" component={Carousel} />
           <Route exact path="/swiper" component={Swiper} />
           <Route exact path="/chat" component={Chat} />
-          <Redirect from="/todo" to="/todo/all" />          
+          <Redirect from="/todo" to="/todo/all" />
           <Route component={Nope} />
         </Switch>
       </div>

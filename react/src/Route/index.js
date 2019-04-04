@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import style from './index.module.scss';
 import RESPONSE_FILES from '../model/response-files.json';
 
+const LOCAL_STORE_KEY = 'LOCAK_ORDER_KEY';
 const MAX_LENGTH = 3;
 const ITEM_SIZE = 150;
 const ITEM_MARGIN = 5;
@@ -17,14 +18,19 @@ const getContents = fetch('https://api.github.com/repos/Yesifan/Yesifan.github.i
     if(res.message) res = RESPONSE_FILES;
     return res.filter(file=>file.type === 'dir' && file.name !== '404');
   })
-  .then(res=>res.map((file,index)=>{
-    file.index = index;
-    file.color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-    file.width = `${ITEM_SIZE}px`;
-    file.height = `${ITEM_SIZE}px`;
-    file.position = position(file.index);
-    return file;
-  }));
+  .then(res=>{
+    const regPos = /^\d+$/;
+    const order = JSON.parse(localStorage.getItem(LOCAL_STORE_KEY));
+    let length = Object.keys(order).length;
+    return res.map((file)=>{
+      file.index = regPos.test(order[file.name]) ? order[file.name] : length++;
+      file.color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+      file.width = `${ITEM_SIZE}px`;
+      file.height = `${ITEM_SIZE}px`;
+      file.position = position(file.index);
+      return file;
+    });
+  });
 
 export default ()=>{
   const [contents,setContents] = useState([]);
@@ -37,7 +43,6 @@ export default ()=>{
   },[]);
 
   function pointUpHandle (event,index) {
-    // event.preventDefault();
     let new_contents = [...contents];
     const block = new_contents[index];
     if(moving !== false) {
@@ -45,12 +50,12 @@ export default ()=>{
       const target = event.currentTarget;
       target.releasePointerCapture(event.pointerId);
       block.position = position(block.index);
+      setContents(new_contents);
       // new_contents.sort((a,b)=>a.index - b.index);
+      store(new_contents);
     }
-    setContents(new_contents);
   }
   function pointMoveHandle (event,index) {
-    // event.preventDefault();
     if(event.buttons === 1) {
       const new_contents = [...contents];
       const block = new_contents[index];
@@ -130,6 +135,22 @@ export default ()=>{
     </div>
   );
 };
+
+const store = (() => {
+  let timer = 0;
+  const Timer = (val) => {
+    timer && clearTimeout(timer);
+    timer = setTimeout(()=>{
+      timer = 0;
+      const local_contents = {};
+      val.forEach(({index,name})=>{
+        local_contents[name] = index;
+      });
+      localStorage.setItem(LOCAL_STORE_KEY,JSON.stringify(local_contents));
+    },1000);
+  };
+  return Timer;
+})();
 
 function position (i) {
   const index = i + 1;
