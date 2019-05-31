@@ -20,7 +20,7 @@ const getContents = fetch('https://api.github.com/repos/Yesifan/Yesifan.github.i
   })
   .then(res=>{
     const regPos = /^\d+$/;
-    const order = JSON.parse(localStorage.getItem(LOCAL_STORE_KEY));
+    const order = JSON.parse(localStorage.getItem(LOCAL_STORE_KEY))||[];
     let length = Object.keys(order).length;
     return res.map((file)=>{
       file.index = regPos.test(order[file.name]) ? order[file.name] : length++;
