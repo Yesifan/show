@@ -7,7 +7,15 @@
   "license": "MIT",
   "author": "yesifan",
   "scripts": {
-    "start": "cd react&&node scripts/start.js"
+    "start": "cd react&&node scripts/start.js",
+    "build": "cd react&&node scripts/build.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d react/build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run deploy"
+    }
   },
   "repository": {
     "type": "git",
@@ -28,6 +36,8 @@
     "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-react-hooks": "^1.6.1",
     "eslint-plugin-standard": "^4.0.0",
+    "gh-pages": "^2.0.1",
+    "husky": "^2.4.1",
     "prettier": "^1.18.2",
     "react": "^16.8.6"
   }
