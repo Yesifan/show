@@ -8,7 +8,7 @@ module.exports = {
     commonjs: true,
     es6: true
   },
-  extends: "eslint:recommended",
+  extends: ["eslint:recommended","standard"],
   parserOptions: {
     ecmaFeatures: {
         "jsx": true
@@ -16,13 +16,12 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module"
   },
-  extends:"react-app",
   rules: {
-    eqeqeq:["error", "always"],
-    indent: ["error", 2],
-    "linebreak-style": ["error", "windows"],
-    quotes: ["error", "single"],
-    semi: ["error", "always"],
+    // eqeqeq:["error", "always"],
+    // indent: ["error", 2],
+    // "linebreak-style": ["error", "windows"],
+    // quotes: ["error", "single"],
+    // semi: ["error", "always"],
     "no-trailing-spaces":2,
     "space-before-blocks":2,
     "space-before-function-paren":2,
