@@ -8,7 +8,8 @@ module.exports = {
     commonjs: true,
     es6: true
   },
-  extends: ["eslint:recommended","standard"],
+  extends: ["standard","prettier"],
+  plugins: ["prettier"],
   parserOptions: {
     ecmaFeatures: {
         "jsx": true
@@ -17,6 +18,7 @@ module.exports = {
     sourceType: "module"
   },
   rules: {
+    "prettier/prettier": "error",
     // eqeqeq:["error", "always"],
     // indent: ["error", 2],
     // "linebreak-style": ["error", "windows"],
@@ -24,7 +26,6 @@ module.exports = {
     // semi: ["error", "always"],
     "no-trailing-spaces":2,
     "space-before-blocks":2,
-    "space-before-function-paren":2,
     "space-infix-ops":2,
     "space-in-parens":2,
     "space-unary-ops":2,
