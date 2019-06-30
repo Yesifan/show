@@ -19,16 +19,11 @@ module.exports = {
   },
   rules: {
     "prettier/prettier": "error",
-    // eqeqeq:["error", "always"],
-    // indent: ["error", 2],
-    // "linebreak-style": ["error", "windows"],
-    // quotes: ["error", "single"],
-    // semi: ["error", "always"],
     "no-trailing-spaces":2,
-    "space-before-blocks":2,
     "space-infix-ops":2,
     "space-in-parens":2,
     "space-unary-ops":2,
-    "spaced-comment":2
+    "spaced-comment":2,
+    "camelcase":0
   }
 };
