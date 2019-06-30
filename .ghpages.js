@@ -5,5 +5,5 @@ module.exports = [{
 },{
   dist:'react/build',
   src:'**/*',
-  dest:'raect'
+  dest:'react'
 }]

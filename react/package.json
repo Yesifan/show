@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "private": false,
-  "homepage": "http://yesifan.github.io/react/build",
+  "homepage": "http://yesifan.github.io/show/react",
   "license": "MIT",
   "dependencies": {
     "@babel/core": "7.2.2",
