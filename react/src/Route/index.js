@@ -12,34 +12,35 @@ const BLOCK_SIZE = ITEM_SIZE + ITEM_MARGIN;
 let diff = { top: 0, left: 0 };
 let lastPostion = {};
 
-const getContents = fetch(
-  'https://api.github.com/repos/Yesifan/Show/contents/react/src/Route/'
-)
-  .then(response => response.json())
-  .then(res => {
-    if (res.message) res = RESPONSE_FILES;
-    return res.filter(file => file.type === 'dir' && file.name !== '404');
-  })
-  .then(res => {
-    const regPos = /^\d+$/;
-    const order = JSON.parse(localStorage.getItem(LOCAL_STORE_KEY)) || [];
-    let length = Object.keys(order).length;
-    return res.map(file => {
-      file.index = regPos.test(order[file.name]) ? order[file.name] : length++;
-      file.color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-      file.width = `${ITEM_SIZE}px`;
-      file.height = `${ITEM_SIZE}px`;
-      file.position = position(file.index);
-      return file;
+const getContents = () =>
+  fetch('https://api.github.com/repos/Yesifan/Show/contents/react/src/Route/')
+    .then(response => response.json())
+    .then(res => {
+      if (res.message) res = RESPONSE_FILES;
+      return res.filter(file => file.type === 'dir' && file.name !== '404');
+    })
+    .then(res => {
+      const regPos = /^\d+$/;
+      const order = JSON.parse(localStorage.getItem(LOCAL_STORE_KEY)) || [];
+      let length = Object.keys(order).length;
+      return res.map(file => {
+        file.index = regPos.test(order[file.name])
+          ? order[file.name]
+          : length++;
+        file.color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+        file.width = `${ITEM_SIZE}px`;
+        file.height = `${ITEM_SIZE}px`;
+        file.position = position(file.index);
+        return file;
+      });
     });
-  });
 
 export default () => {
   const [contents, setContents] = useState([]);
   const [moving, setMoving] = useState(false);
   const row = contents.length ? contents[contents.length - 1].position.row : 0;
   useEffect(() => {
-    getContents.then(res => {
+    getContents().then(res => {
       setContents(res);
     });
   }, []);

@@ -1,5 +1,3 @@
-import { useRef, useEffect } from 'react';
-
 export function delay(amount = 0) {
   return new Promise(resolve => {
     setTimeout(resolve, amount);
@@ -15,10 +13,15 @@ export function getImage(src) {
   return Promise.resolve();
 }
 
-export function usePrevious(value) {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
+/** 计算index相对于activeIndex的位置
+ * @param {Number} index 当前序号
+ * @param {Number} activeIndex 活动序号
+ * @param {Number} length 总长度
+ * @returns {Number} 相对位置
+ */
+export function processIndex(index, activeIndex, length) {
+  const _index = index - activeIndex;
+  if (_index > length / 2) return _index - length;
+  else if (_index < -length / 2) return _index + length;
+  return _index;
 }

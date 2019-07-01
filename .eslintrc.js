@@ -24,6 +24,7 @@ module.exports = {
     "space-in-parens":2,
     "space-unary-ops":2,
     "spaced-comment":2,
-    "camelcase":0
+    "camelcase":0,
+    "no-console":1
   }
 };

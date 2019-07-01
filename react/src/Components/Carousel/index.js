@@ -1,84 +1,94 @@
-import React, { useState, useEffect } from 'react';
-import { usePrevious } from '../../Utils/tool';
+import React, { useState, useEffect, useRef } from 'react';
+import { usePrevious } from '../../Utils/hooks';
+import { processIndex } from '../../Utils/tool';
 import './Carousel.scss';
 
 function Item(props) {
-  const { activeIndex, index, length } = props;
+  const { activeIndex, index, length, move } = props;
   const [translate, setTranslate] = useState(100 * (index - activeIndex));
   const [animating, setAnimating] = useState(false);
   const prevIndex = usePrevious(activeIndex);
-  useEffect(() => {
-    translateItem(index, activeIndex, prevIndex);
-    /**
-     * @param index - 此item的index
-     * @param activeIndex - 下一个活动index
-     * @param prevIndex - 上一个活动的index
-     */
-    function translateItem(index, activeIndex, prevIndex) {
-      if (prevIndex !== undefined && activeIndex !== prevIndex) {
-        if (index === activeIndex || index === prevIndex) {
-          setAnimating(true);
-        } else {
-          setAnimating(false);
-        }
-      }
-      if (index !== activeIndex && length > 2) {
-        index = processIndex(index, activeIndex, length);
-      }
-      setTranslate(100 * (index - activeIndex));
+  const _index = processIndex(index, activeIndex, length);
 
-      function processIndex(index, activeIndex, length) {
-        if (activeIndex === 0 && index === length - 1) {
-          return -1;
-        } else if (activeIndex === length - 1 && index === 0) {
-          return length;
-        } else if (
-          index < activeIndex - 1 &&
-          activeIndex - index >= length / 2
-        ) {
-          return length + 1;
-        } else if (
-          index > activeIndex + 1 &&
-          index - activeIndex >= length / 2
-        ) {
-          return -2;
-        }
-        return index;
+  useEffect(() => {
+    if (move) setAnimating(false);
+    else if (activeIndex === prevIndex) {
+      if (translate % 100) setAnimating(true);
+    } else if (prevIndex !== undefined) {
+      if (index === activeIndex || index === prevIndex) {
+        setAnimating(true);
+      } else {
+        setAnimating(false);
       }
     }
-  }, [activeIndex, index, length, prevIndex, translate]);
 
-  return (
+    setTranslate(100 * _index - move);
+  }, [_index, activeIndex, index, move, prevIndex, translate]);
+
+  return _index === 0 || _index === 1 || _index === -1 ? (
     <div
       className={`carousel-item ${animating ? 'animating' : ''}`}
       style={{ transform: `translateX(${translate}%)` }}>
       {props.children}
     </div>
-  );
+  ) : null;
 }
 
-function Carousel(props) {
+export default function Carousel(props) {
+  const timer = useRef(0);
+  const main = useRef();
+  const prevMove = useRef();
+  const [move, setMove] = useState(0);
   const [activeIndex, setIndex] = useState(0);
-  const { children } = props;
+  const { offsetWidth } = main.current || 0;
+  const { children, interval = 1000 } = props;
+
+  function handleTouchStart(e) {
+    prevMove.current = e.touches[0].clientX;
+  }
+
+  function handleTouchMove(e) {
+    const { clientX } = e.touches[0];
+    setMove(((prevMove.current - clientX) / offsetWidth) * 100);
+  }
+
+  function handleTouchEnd() {
+    if (move > 100 / 4)
+      setIndex(index => (index + 1 >= children.length ? 0 : index + 1));
+    else if (move < -100 / 4)
+      setIndex(index => (index - 1 < 0 ? children.length - 1 : index - 1));
+    setMove(0);
+  }
+
   useEffect(() => {
-    let index = activeIndex + 1;
-    index = index >= children.length ? 0 : index;
-    const interval = setTimeout(() => {
-      setIndex(index);
-    }, 1000);
-    return () => clearTimeout(interval);
-  }, [activeIndex, children]);
+    if (move) {
+      clearTimeout(timer.current);
+    } else {
+      timer.current = setTimeout(() => {
+        setIndex(index => (index + 1 >= children.length ? 0 : index + 1));
+      }, interval);
+    }
+    return () => clearTimeout(timer.current);
+  }, [interval, activeIndex, children, move]);
 
   const item = children.map((ele, index) => (
     <Item
       key={index}
+      move={move}
       index={index}
       length={children.length}
       activeIndex={activeIndex}>
       {ele}
     </Item>
   ));
-  return <section {...props}>{item}</section>;
+  return (
+    <section
+      {...props}
+      ref={main}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}>
+      {item}
+    </section>
+  );
 }
-
-export default Carousel;
