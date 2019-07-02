@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel from '../../Components/Carousel/';
-import './index.css';
+import './index.scss';
 export default function() {
   return (
     <Carousel className="carousel" interval={2000}>

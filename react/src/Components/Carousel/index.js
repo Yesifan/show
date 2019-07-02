@@ -63,6 +63,8 @@ export default function Carousel(props) {
   const { offsetWidth } = main.current || 0;
   const { children, interval = 1000 } = props;
 
+  const childrens = children instanceof Array ? children : [children];
+
   function handleSelect(i) {
     setIndex(i);
   }
@@ -72,15 +74,17 @@ export default function Carousel(props) {
   }
 
   function handleTouchMove(e) {
-    const { clientX } = e.touches[0];
-    setMove(((prevMove.current - clientX) / offsetWidth) * 100);
+    if (childrens.length > 1) {
+      const { clientX } = e.touches[0];
+      setMove(((prevMove.current - clientX) / offsetWidth) * 100);
+    }
   }
 
   function handleTouchEnd() {
     if (move > 100 / 4)
-      setIndex(index => (index + 1 >= children.length ? 0 : index + 1));
+      setIndex(index => (index + 1 >= childrens.length ? 0 : index + 1));
     else if (move < -100 / 4)
-      setIndex(index => (index - 1 < 0 ? children.length - 1 : index - 1));
+      setIndex(index => (index - 1 < 0 ? childrens.length - 1 : index - 1));
     setMove(0);
   }
 
@@ -88,18 +92,18 @@ export default function Carousel(props) {
     clearTimeout(timer.current);
     if (!move) {
       timer.current = setTimeout(() => {
-        setIndex(index => (index + 1 >= children.length ? 0 : index + 1));
+        setIndex(index => (index + 1 >= childrens.length ? 0 : index + 1));
       }, interval);
     }
     return () => clearTimeout(timer.current);
-  }, [interval, activeIndex, children, move]);
+  }, [interval, activeIndex, childrens, move]);
 
-  const item = children.map((ele, index) => (
+  const item = childrens.map((ele, index) => (
     <Item
       key={index}
       move={move}
       index={index}
-      length={children.length}
+      length={childrens.length}
       activeIndex={activeIndex}>
       {ele}
     </Item>
@@ -113,11 +117,13 @@ export default function Carousel(props) {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}>
       {item}
-      <Point
-        onSelect={handleSelect}
-        active={activeIndex}
-        length={children.length}
-      />
+      {childrens.length > 1 ? (
+        <Point
+          onSelect={handleSelect}
+          active={activeIndex}
+          length={childrens.length}
+        />
+      ) : null}
     </section>
   );
 }

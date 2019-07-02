@@ -1,13 +1,13 @@
-import React,{Component} from 'react';
-import Swiper from "../../Components/Swiper/";
-import PropTypes from 'prop-types';
-import './index.css'
+import React, { Component } from 'react';
+import Swiper from '../../Components/Swiper/';
+import './index.css';
+
 export default class Carousel extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.interval = undefined;
     this.state = {
-      index:1
+      index: 1
     };
   }
   componentDidMount() {
@@ -16,19 +16,19 @@ export default class Carousel extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
-  swiper(){
-    return setInterval(()=>{
-      this.setState(({index}) => ({index:++index<=3-1?index:0}))
-    },1000)
+  swiper() {
+    return setInterval(() => {
+      this.setState(({ index }) => ({ index: ++index <= 3 - 1 ? index : 0 }));
+    }, 1000);
   }
-  render(){
-    const {index} = this.state;
-     return (
-      <Swiper ref='carousel' className='carousel' i={index}>
-        <div className='carousel_item red'></div>
-        <div className='carousel_item black'></div>
-        <div className='carousel_item green'></div>
+  render() {
+    const { index } = this.state;
+    return (
+      <Swiper ref="carousel" className="carousel" i={index}>
+        <div className="carousel_item red"></div>
+        <div className="carousel_item black"></div>
+        <div className="carousel_item green"></div>
       </Swiper>
-     )
+    );
   }
 }
