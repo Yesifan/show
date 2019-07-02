@@ -20,6 +20,7 @@ export function getImage(src) {
  * @returns {Number} 相对位置
  */
 export function processIndex(index, activeIndex, length) {
+  if (index === undefined) return undefined;
   const _index = index - activeIndex;
   if (_index > length / 2) return _index - length;
   else if (_index < -length / 2) return _index + length;

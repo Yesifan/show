@@ -10,7 +10,7 @@
     height: 100%;
     overflow: hidden;
     &:global(.animating){
-      transition:transform 300ms ease-in-out;
+      transition:transform 300ms linear;
     }
   }
   ul:global(.nav){

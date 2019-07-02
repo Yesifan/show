@@ -9,36 +9,47 @@ function Item(props) {
   const [translate, setTranslate] = useState(100 * (index - activeIndex));
   const [animating, setAnimating] = useState(false);
   const prevIndex = usePrevious(activeIndex);
+
+  const _activeIndex = 0;
   const _index = processIndex(index, activeIndex, length);
+  const _prevIndex = processIndex(prevIndex, activeIndex, length);
 
   useEffect(() => {
     if (move) setAnimating(false);
-    else if (activeIndex === prevIndex) {
+    else if (_activeIndex === _prevIndex) {
       if (translate % 100) setAnimating(true);
-    } else if (prevIndex !== undefined) {
-      if (index === activeIndex || index === prevIndex) {
-        setAnimating(true);
-      } else {
-        setAnimating(false);
+    } else if (_prevIndex !== undefined) {
+      if (_activeIndex > _prevIndex) {
+        if (_index <= _activeIndex && _index >= _prevIndex) setAnimating(true);
+        else setAnimating(false);
+      } else if (_activeIndex < _prevIndex) {
+        if (_index <= _prevIndex && _index >= _activeIndex) setAnimating(true);
+        else setAnimating(false);
       }
-    }
+    } else if (_index === 0) setAnimating(true);
 
     setTranslate(100 * _index - move);
-  }, [_index, activeIndex, index, move, prevIndex, translate]);
+  }, [_index, _prevIndex, move, translate]);
 
-  return _index === 0 || _index === 1 || _index === -1 ? (
+  return (
     <div
       className={`carouselItem ${animating ? 'animating' : ''}`}
       style={{ transform: `translateX(${translate}%)` }}>
-      {props.children}
+      {animating ? props.children : ''}
     </div>
-  ) : null;
+  );
 }
 
-function Point({ length, active }) {
+function Point({ length, active, onSelect }) {
   const items = [];
   for (let i = 0; i < length; i++) {
-    items.push(<li className={active === i ? 'active' : ''} key={i}></li>);
+    items.push(
+      <li
+        key={i}
+        className={active === i ? 'active' : ''}
+        onClick={e => onSelect(i, e)}
+      />
+    );
   }
   return <ul className="nav">{items}</ul>;
 }
@@ -51,6 +62,10 @@ export default function Carousel(props) {
   const [activeIndex, setIndex] = useState(0);
   const { offsetWidth } = main.current || 0;
   const { children, interval = 1000 } = props;
+
+  function handleSelect(i) {
+    setIndex(i);
+  }
 
   function handleTouchStart(e) {
     prevMove.current = e.touches[0].clientX;
@@ -98,7 +113,11 @@ export default function Carousel(props) {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}>
       {item}
-      <Point active={activeIndex} length={children.length} />
+      <Point
+        onSelect={handleSelect}
+        active={activeIndex}
+        length={children.length}
+      />
     </section>
   );
 }
