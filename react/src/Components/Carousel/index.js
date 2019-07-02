@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePrevious } from '../../Utils/hooks';
 import { processIndex } from '../../Utils/tool';
-import './Carousel.scss';
+
+import styles from './index.module.scss';
 
 function Item(props) {
   const { activeIndex, index, length, move } = props;
@@ -27,11 +28,19 @@ function Item(props) {
 
   return _index === 0 || _index === 1 || _index === -1 ? (
     <div
-      className={`carousel-item ${animating ? 'animating' : ''}`}
+      className={`carouselItem ${animating ? 'animating' : ''}`}
       style={{ transform: `translateX(${translate}%)` }}>
       {props.children}
     </div>
   ) : null;
+}
+
+function Point({ length, active }) {
+  const items = [];
+  for (let i = 0; i < length; i++) {
+    items.push(<li className={active === i ? 'active' : ''} key={i}></li>);
+  }
+  return <ul className="nav">{items}</ul>;
 }
 
 export default function Carousel(props) {
@@ -61,9 +70,8 @@ export default function Carousel(props) {
   }
 
   useEffect(() => {
-    if (move) {
-      clearTimeout(timer.current);
-    } else {
+    clearTimeout(timer.current);
+    if (!move) {
       timer.current = setTimeout(() => {
         setIndex(index => (index + 1 >= children.length ? 0 : index + 1));
       }, interval);
@@ -84,11 +92,13 @@ export default function Carousel(props) {
   return (
     <section
       {...props}
+      className={`${styles.carousel} ${props.className}`}
       ref={main}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}>
       {item}
+      <Point active={activeIndex} length={children.length} />
     </section>
   );
 }
