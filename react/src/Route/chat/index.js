@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { delay, getImage } from '../../Utils/tool';
-import './index.scss';
 
 import { Input, Bubble } from './modules';
 import Dialog from './dialog';
+
+import './index.scss';
 
 const Dot = () => [
   <div className="dot" key={1}></div>,
@@ -28,7 +29,7 @@ export default class App extends Component {
   }
 
   meMessage = id => {
-    const answer = Dialog.answer[id];
+    const answer = id instanceof Object ? id : Dialog.answer[id];
     return this.sendMessage(answer, true).then(() => {
       let _options = Dialog.qusition;
       if (answer.response) _options = answer.response;
@@ -56,16 +57,15 @@ export default class App extends Component {
     const gradient = (msg, index = 0) => {
       return this._setState(prev => {
         const newDialog = [...prev.dialog];
-        newDialog[newDialog.length - 1] =
-          msg.type === 'img'
-            ? { content: msg, answer }
-            : { content: msg.slice(0, index), answer };
+        newDialog[newDialog.length - 1] = msg.type
+          ? { content: msg, answer }
+          : { content: msg.slice(0, index), answer };
         return { dialog: newDialog };
       })
         .then(this.updateScroll)
         .then(() => delay(Math.random() * 80 + 70))
         .then(() => {
-          if (index === msg.length || msg.type === 'img')
+          if (index === msg.length || msg.type)
             return delay(Math.random() * 100 + 100);
           else return gradient(msg, ++index);
         });
@@ -117,6 +117,7 @@ export default class App extends Component {
 
   render() {
     const { dialog, options } = this.state;
+
     return (
       <div id="chat">
         {/* <header>叶思凡</header> */}

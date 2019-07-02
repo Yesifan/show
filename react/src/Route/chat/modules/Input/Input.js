@@ -1,55 +1,62 @@
 import React, { Component } from 'react';
-import { CSSTransition } from 'react-transition-group'; 
+import { CSSTransition } from 'react-transition-group';
 import './input.scss';
 
-const Select = ({options,send})=>{
-  let Options,type;
-  if(!options) return null;
-  if(options instanceof Array){
+const Select = ({ options, send }) => {
+  let Options, type;
+  if (!options) return null;
+  if (options instanceof Array) {
     type = 'qustion';
-    Options = options.map((item,index)=>
-      <div className='__select_item' key={index} onClick={()=>send(item)}>
-        {item.dialog}
+    Options = options.map((item, index) => (
+      <div className="__select_item" key={index} onClick={() => send(item)}>
+        {item.brief || item.dialog}
       </div>
-    )
-  }else{
+    ));
+  } else {
     type = 'brief';
-    Options = Object.keys(options).map((key,index)=>
-      <div className='__select_item' key={index} onClick={()=>send(options[key])}>
+    Options = Object.keys(options).map((key, index) => (
+      <div
+        className="__select_item"
+        key={index}
+        onClick={() => send(options[key])}>
         {options[key].brief}
       </div>
-    )
+    ));
   }
-  return (
-    <div className={['__select',type].join(' ')}>
-      {Options}
-    </div>
-  )
-}
+  return <div className={['__select', type].join(' ')}>{Options}</div>;
+};
 
 export class Input extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      show:false
-    }
+      show: false
+    };
   }
-  handleClick = ()=>{
-    this.setState((prevState=>({show:!prevState.show})))
+  handleClick = () => {
+    this.setState(prevState => ({ show: !prevState.show }));
   };
-  handleSend = (msg) => {
-    this.setState({show:false});
+  handleSend = msg => {
+    this.setState({ show: false });
     this.props.sendMessage(msg);
-  }
+  };
   render() {
-    const {children,dialog} = this.props;
-    const {show} = this.state;
+    const { children, dialog } = this.props;
+    const { show } = this.state;
     return (
-      <div className='select-input'>
-        <CSSTransition in={show} timeout={300} classNames="select" unmountOnExit>
-          <Select options={dialog} send={this.handleSend}/>
+      <div className="select-input">
+        <CSSTransition
+          in={show}
+          timeout={300}
+          classNames="select"
+          unmountOnExit>
+          <Select options={dialog} send={this.handleSend} />
         </CSSTransition>
-        <div className='__input'  onClick={this.handleClick}>{children}</div>
+        <div
+          className={`__input ${dialog ? '' : 'disabled'}`}
+          onClick={this.handleClick}>
+          {children}
+        </div>
       </div>
     );
   }
